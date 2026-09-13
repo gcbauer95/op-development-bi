@@ -1,0 +1,13 @@
+.env
+parquet
+processed
+raw
+venv
+
+conn.py
+base.sql
+etl-producao.py
+etl-wip.py
+main.py
+setor-etapa-analise.py
+cad-produtos.xlsx
