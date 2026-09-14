@@ -11,3 +11,12 @@ etl-wip.py
 main.py
 setor-etapa-analise.py
 cad-produtos.xlsx
+
+
+__pycache__/
+*.py[cod]
+.DS_Store
+
+.venv/
+venv/
+.env
