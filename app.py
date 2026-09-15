@@ -13,7 +13,8 @@ df = load_data("movimentacao")
 
 
 if df is None:
-    st.stop()
+	st.session_state.pop("data_movimentacao", None)
+	st.stop()
 
 
 st.success(
