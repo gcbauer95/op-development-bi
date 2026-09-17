@@ -23,6 +23,8 @@ production_caption()
 
 df = sidebar_filters(get_movements(), key_prefix="production")
 if not no_data_message(df):
+    selected_sectors = st.session_state.get("production_Setor", [])
+    production_df = df if len(selected_sectors) == 1 else df.loc[df["Setor"] == "EXPEDIÇÃO"]
     months_sectors = monthly_production(df, ["Setor"])
     sectors = months_sectors.groupby("Setor")[PRODUCTION_COL].sum().nlargest(12).index
     chart_data = (months_sectors.loc[months_sectors["Setor"].isin(sectors)]
@@ -39,11 +41,13 @@ if not no_data_message(df):
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Produção por coleção")
-        collection = df.groupby("Colecao", dropna=False)[PRODUCTION_COL].sum().sort_values(ascending=False)
+        collection = (production_df.groupby("Colecao", dropna=False)[PRODUCTION_COL]
+                      .sum().sort_values(ascending=False))
         st.bar_chart(collection.head(20))
     with col2:
         st.subheader("Produção por grupo")
-        group = df.groupby("Grupo", dropna=False)[PRODUCTION_COL].sum().sort_values(ascending=False)
+        group = (production_df.groupby("Grupo", dropna=False)[PRODUCTION_COL]
+                 .sum().sort_values(ascending=False))
         st.bar_chart(group.head(20))
 
     st.subheader("Detalhamento mensal")
