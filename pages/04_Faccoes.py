@@ -20,7 +20,12 @@ st.set_page_config(page_title="Facções | BI", page_icon="🧵", layout="wide")
 st.title("Análise de facções")
 production_caption()
 
-df = sidebar_filters(get_movements(), key_prefix="factions", include_faction=True)
+df = sidebar_filters(
+    get_movements(),
+    key_prefix="factions",
+    include_faction=True,
+    default_excluded_factions=["ONCA PRETA DENIM LTDA"],
+)
 if not no_data_message(df):
     known = df.dropna(subset=["Facção"]).copy()
     total = known[PRODUCTION_COL].sum()
