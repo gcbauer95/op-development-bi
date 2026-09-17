@@ -54,6 +54,7 @@ def sidebar_filters(
             value=(valid_dates.min().date(), valid_dates.max().date()),
             min_value=valid_dates.min().date(),
             max_value=valid_dates.max().date(),
+            format="DD/MM/YYYY",
             key=f"{key_prefix}_dates",
         )
         if isinstance(selected_dates, tuple) and len(selected_dates) == 2:
