@@ -42,6 +42,7 @@ def sidebar_filters(
     key_prefix: str,
     include_sector: bool = True,
     include_faction: bool = False,
+    default_excluded_factions: list[str] | None = None,
     date_column: str = DATE_COL,
 ) -> pd.DataFrame:
     """Aplica filtros globais sem criar cópias até o final."""
@@ -69,7 +70,18 @@ def sidebar_filters(
         if selected:
             df = df.loc[df["Setor"].isin(selected)]
     if include_faction:
-        selected = st.sidebar.multiselect("Facção", _options(df, "Facção"), key=f"{key_prefix}_Faccao")
+        faction_options = _options(df, "Facção")
+        default_factions = [
+            faction
+            for faction in faction_options
+            if faction not in (default_excluded_factions or [])
+        ]
+        selected = st.sidebar.multiselect(
+            "Facção",
+            faction_options,
+            default=default_factions,
+            key=f"{key_prefix}_Faccao",
+        )
         if selected:
             df = df.loc[df["Facção"].isin(selected)]
     return df
