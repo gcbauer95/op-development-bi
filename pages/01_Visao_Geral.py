@@ -40,7 +40,7 @@ if not no_data_message(df):
     c3.metric("Referências", f"{references:,.0f}".replace(",", "."))
     c4.metric("Peças por referência", f"{(total / references if references else 0):,.1f}".replace(",", "."))
 
-    monthly = monthly_production(df).set_index("Mês")
+    monthly = monthly_production(production_df).set_index("Mês")
     st.subheader("Evolução mensal")
     st.line_chart(monthly[PRODUCTION_COL])
 
