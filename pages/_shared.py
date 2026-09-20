@@ -79,6 +79,38 @@ def get_movements() -> pd.DataFrame | None:
 def _options(df: pd.DataFrame, column: str) -> list:
     return sorted(df[column].dropna().unique().tolist(), key=lambda value: str(value))
 
+def get_orders() -> pd.DataFrame | None:
+    orders = load_data("ops_geradas")
+
+    if orders is None:
+        return None
+
+    df = orders.copy()
+
+    df["OF"] = df["OF"].astype("string").str.strip()
+
+    for column in [
+        "Emissão",
+        "Data Setor",
+        "Prev. Término",
+    ]:
+        df[column] = pd.to_datetime(
+            df[column],
+            errors="coerce",
+        )
+
+    for column in [
+        "Qt Orig.",
+        "Qt Aprovada",
+        "Qt Pend.",
+    ]:
+        df[column] = pd.to_numeric(
+            df[column],
+            errors="coerce",
+        ).fillna(0)
+
+    return df
+
 
 def sidebar_filters(
     df: pd.DataFrame | None,
