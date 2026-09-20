@@ -35,7 +35,7 @@ requirements.txt        # Dependências Python
 ## Requisitos
 
 - Python 3.12 ou superior
-- Um arquivo Parquet de movimentação de produção com a estrutura esperada pela aplicação
+- Um arquivo Parquet de movimentação de produção e um arquivo Parquet de ordens geradas, ambos com a estrutura esperada pela aplicação
 
 ## Instalação
 
@@ -59,7 +59,7 @@ venv\Scripts\activate
 streamlit run app.py
 ```
 
-Ao abrir a aplicação, envie o arquivo Parquet de movimentação de produção. O arquivo não é armazenado no repositório.
+Ao abrir a aplicação, envie os dois arquivos Parquet solicitados. As bases ficam apenas na sessão do dashboard e não são armazenadas no repositório.
 
 ## Tecnologias
 

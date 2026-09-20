@@ -1,4 +1,5 @@
 from io import BytesIO
+import hashlib
 
 import pandas as pd
 import streamlit as st
@@ -27,6 +28,14 @@ DATASETS = {
             "Grupo",
         ],
     },
+    "ops_geradas": {
+        "description": "Ordens geradas",
+        "columns": [
+            "OF",
+            "Tipo OP",
+            "Desc. Tipo OP",
+        ],
+    },
 }
 
 
@@ -49,7 +58,7 @@ def validate_dataframe(
     ]
 
 
-def load_data(dataset_name: str) -> pd.DataFrame | None:
+def load_data(dataset_name: str, *, refresh: bool = False) -> pd.DataFrame | None:
 
     dataset = DATASETS.get(dataset_name)
 
@@ -64,7 +73,7 @@ def load_data(dataset_name: str) -> pd.DataFrame | None:
 
     state_key = f"data_{dataset_name}"
 
-    if state_key in st.session_state:
+    if state_key in st.session_state and not refresh:
 
         return st.session_state[state_key]
 
@@ -79,7 +88,7 @@ def load_data(dataset_name: str) -> pd.DataFrame | None:
     )
 
     if uploaded_file is None:
-        return None
+        return st.session_state.get(state_key)
 
     # ========================================================
     # 3. LER PARQUET
@@ -87,9 +96,16 @@ def load_data(dataset_name: str) -> pd.DataFrame | None:
 
     try:
 
-        df = read_parquet(
-            uploaded_file.getvalue()
-        )
+        file_bytes = uploaded_file.getvalue()
+        file_signature = hashlib.sha256(file_bytes).hexdigest()
+
+        if (
+            state_key in st.session_state
+            and st.session_state.get(f"{state_key}_signature") == file_signature
+        ):
+            return st.session_state[state_key]
+
+        df = read_parquet(file_bytes)
 
     except Exception as error:
 
@@ -126,5 +142,7 @@ def load_data(dataset_name: str) -> pd.DataFrame | None:
     # ========================================================
 
     st.session_state[state_key] = df
+    st.session_state[f"{state_key}_signature"] = file_signature
+    st.session_state.pop("data_movimentacao_enriched", None)
 
     return df
