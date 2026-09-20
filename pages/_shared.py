@@ -18,17 +18,61 @@ from data.loader import load_data  # noqa: E402
 
 PRODUCTION_COL = "Qt Aprovada"
 DATE_COL = "Data Saída"
+ORDER_TYPE_DESC_COL = "Desc. Tipo OP"
 
 
-@st.cache_data(show_spinner="Carregando dados de movimentação...")
-def get_movements() -> pd.DataFrame:
-    """Carrega e padroniza somente os campos usados nas análises."""
-    df = load_data("movimentacao").copy()
+def _normalize_order_dimension(orders: pd.DataFrame) -> pd.DataFrame | None:
+    """Valida e reduz a base de ordens a uma classificação única por OF."""
+    work = orders[["OF", "Tipo OP", ORDER_TYPE_DESC_COL]].copy()
+    work["OF"] = work["OF"].astype("string").str.strip()
+    work["Tipo OP"] = pd.to_numeric(work["Tipo OP"], errors="coerce").astype("Int64").astype("string")
+    work[ORDER_TYPE_DESC_COL] = work[ORDER_TYPE_DESC_COL].astype("string").str.strip()
+
+    conflicts = (
+        work.assign(
+            _type_key=work["Tipo OP"].fillna("<SEM>"),
+            _desc_key=work[ORDER_TYPE_DESC_COL].fillna("<SEM>"),
+        )
+        .groupby("OF", dropna=False)
+        .agg(_types=("_type_key", "nunique"), _descriptions=("_desc_key", "nunique"))
+    )
+    conflicts = conflicts.loc[(conflicts["_types"] > 1) | (conflicts["_descriptions"] > 1)]
+    if not conflicts.empty:
+        st.error(
+            "A base de ordens geradas possui classificações conflitantes para uma mesma OF. "
+            f"OFs afetadas: {', '.join(conflicts.index.astype('string').tolist()[:10])}."
+        )
+        return None
+
+    return work.drop_duplicates("OF", keep="first")
+
+
+def get_movements() -> pd.DataFrame | None:
+    """Carrega, padroniza e enriquece movimentos com a classificação da OF."""
+    movements = load_data("movimentacao")
+    orders = load_data("ops_geradas")
+    if movements is None or orders is None:
+        return None
+
+    order_dimension = _normalize_order_dimension(orders)
+    if order_dimension is None:
+        return None
+
+    df = movements.copy()
+    df["OF"] = df["OF"].astype("string").str.strip()
+    try:
+        df = df.merge(order_dimension, on="OF", how="left", validate="many_to_one")
+    except (KeyError, pd.errors.MergeError) as error:
+        st.error(f"Não foi possível relacionar as bases de movimentação e ordens: {error}")
+        return None
+
     df[DATE_COL] = pd.to_datetime(df[DATE_COL], errors="coerce")
     df["Data Entrada"] = pd.to_datetime(df["Data Entrada"], errors="coerce")
     df[PRODUCTION_COL] = pd.to_numeric(df[PRODUCTION_COL], errors="coerce").fillna(0)
     df["Qt OF"] = pd.to_numeric(df["Qt OF"], errors="coerce").fillna(0)
+    df[ORDER_TYPE_DESC_COL] = df[ORDER_TYPE_DESC_COL].fillna("SEM CLASSIFICAÇÃO")
     df["Mês"] = df[DATE_COL].dt.to_period("M").astype("string")
+    st.session_state["data_movimentacao_enriched"] = df
     return df
 
 
@@ -37,7 +81,7 @@ def _options(df: pd.DataFrame, column: str) -> list:
 
 
 def sidebar_filters(
-    df: pd.DataFrame,
+    df: pd.DataFrame | None,
     *,
     key_prefix: str,
     include_sector: bool = True,
@@ -46,6 +90,8 @@ def sidebar_filters(
     date_column: str = DATE_COL,
 ) -> pd.DataFrame:
     """Aplica filtros globais sem criar cópias até o final."""
+    if df is None:
+        return pd.DataFrame()
     st.sidebar.header("Filtros")
     valid_dates = df[date_column].dropna()
     if not valid_dates.empty:
@@ -65,6 +111,15 @@ def sidebar_filters(
         selected = st.sidebar.multiselect(label, _options(df, column), key=f"{key_prefix}_{column}")
         if selected:
             df = df.loc[df[column].isin(selected)]
+
+    if ORDER_TYPE_DESC_COL in df.columns:
+        selected = st.sidebar.multiselect(
+            "Tipo OP",
+            _options(df, ORDER_TYPE_DESC_COL),
+            key=f"{key_prefix}_TipoOP",
+        )
+        if selected:
+            df = df.loc[df[ORDER_TYPE_DESC_COL].isin(selected)]
 
     if include_sector:
         selected = st.sidebar.multiselect("Setor", _options(df, "Setor"), key=f"{key_prefix}_Setor")

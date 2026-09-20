@@ -9,16 +9,16 @@ st.set_page_config(
 )
 
 
-df = load_data("movimentacao")
+df = load_data("movimentacao", refresh=True)
+orders = load_data("ops_geradas", refresh=True)
 
 
-if df is None:
-	st.session_state.pop("data_movimentacao", None)
+if df is None or orders is None:
 	st.stop()
 
 
 st.success(
-    f"Dados carregados: {len(df):,} registros"
+    f"Dados carregados: {len(df):,} movimentações e {len(orders):,} ordens geradas"
 )
 
 
