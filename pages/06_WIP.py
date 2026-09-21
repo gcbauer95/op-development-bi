@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
 
@@ -171,10 +172,8 @@ for column in [
 # 4. REMOVER OFs ENCERRADAS
 # ============================================================
 #
-# Regra de negócio:
-# Setor Atual nulo = OF encerrada.
-#
-# Essas OFs não fazem parte do WIP atual.
+# Regra:
+# Setor atual nulo = OF encerrada.
 # ============================================================
 
 df = df[
@@ -184,10 +183,6 @@ df = df[
 
 # ============================================================
 # 5. GARANTIR UMA LINHA POR OF
-# ============================================================
-#
-# Caso existam duplicidades para a mesma OF, mantemos
-# o registro com a Data Setor mais recente.
 # ============================================================
 
 df = (
@@ -254,9 +249,6 @@ HOJE = pd.Timestamp.today().normalize()
 # ============================================================
 # 9. AGING DA OF
 # ============================================================
-#
-# Tempo decorrido desde a emissão da OF.
-# ============================================================
 
 df["AGING_OF_DIAS"] = (
     HOJE
@@ -265,10 +257,7 @@ df["AGING_OF_DIAS"] = (
 
 
 # ============================================================
-# 10. AGING NO SETOR ATUAL
-# ============================================================
-#
-# Data Setor representa a entrada da OF no setor atual.
+# 10. AGING NO SETOR
 # ============================================================
 
 df["AGING_SETOR_DIAS"] = (
@@ -311,8 +300,7 @@ df["STATUS_PRAZO"] = (
 # 12. IDENTIFICAR WIP
 # ============================================================
 #
-# WIP TOTAL:
-# PCP até ACABAMENTO.
+# WIP = PCP até ACABAMENTO.
 #
 # EXPEDIÇÃO não entra no WIP.
 # ============================================================
@@ -459,7 +447,7 @@ if selected_setor:
 
 
 # ============================================================
-# 14. SUBGRUPOS DO WIP
+# 14. SUBGRUPOS
 # ============================================================
 
 wip_pre_corte = wip[
@@ -508,7 +496,7 @@ def format_days(value):
 
 
 # ============================================================
-# 16. RESUMO DO WIP
+# 16. WIP
 # ============================================================
 
 st.subheader("WIP")
@@ -520,10 +508,7 @@ c1.metric(
     format_number(
         total_pecas(wip)
     ),
-    help=(
-        f"{total_ofs(wip):,.0f} OFs"
-        .replace(",", ".")
-    ),
+    help=f"{total_ofs(wip)} OFs",
 )
 
 c2.metric(
@@ -531,10 +516,7 @@ c2.metric(
     format_number(
         total_pecas(wip_pre_corte)
     ),
-    help=(
-        f"{total_ofs(wip_pre_corte):,.0f} OFs"
-        .replace(",", ".")
-    ),
+    help=f"{total_ofs(wip_pre_corte)} OFs",
 )
 
 c3.metric(
@@ -542,10 +524,7 @@ c3.metric(
     format_number(
         total_pecas(wip_producao)
     ),
-    help=(
-        f"{total_ofs(wip_producao):,.0f} OFs"
-        .replace(",", ".")
-    ),
+    help=f"{total_ofs(wip_producao)} OFs",
 )
 
 st.caption(
@@ -609,10 +588,11 @@ c4.metric(
 
 
 # ============================================================
-# 19. WIP POR SETOR
+# 19. PREPARAR WIP POR SETOR
 # ============================================================
-
-st.subheader("WIP por setor atual")
+#
+# Essa agregação é criada antes do gráfico e da tabela.
+# ============================================================
 
 wip_setor = (
     wip
@@ -662,6 +642,104 @@ wip_setor = wip_setor.rename(
     }
 )
 
+
+# ============================================================
+# 20. GRÁFICO WIP + AGING POR SETOR
+# ============================================================
+
+st.subheader(
+    "WIP e Aging por setor"
+)
+
+fig_wip = go.Figure()
+
+
+# ------------------------------------------------------------
+# Barras - WIP
+# ------------------------------------------------------------
+
+fig_wip.add_trace(
+    go.Bar(
+        x=wip_setor["SETOR"],
+        y=wip_setor["PECAS"],
+        name="Peças em WIP",
+        text=wip_setor["PECAS"],
+        texttemplate="%{text:,.0f}",
+        textposition="outside",
+        yaxis="y",
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "WIP: %{y:,.0f} peças"
+            "<extra></extra>"
+        ),
+    )
+)
+
+
+# ------------------------------------------------------------
+# Linha - Aging médio
+# ------------------------------------------------------------
+
+fig_wip.add_trace(
+    go.Scatter(
+        x=wip_setor["SETOR"],
+        y=wip_setor["AGING_MEDIO"],
+        name="Aging médio",
+        mode="lines+markers",
+        yaxis="y2",
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "Aging médio: %{y:.1f} dias"
+            "<extra></extra>"
+        ),
+    )
+)
+
+
+fig_wip.update_layout(
+    xaxis=dict(
+        title="Setor",
+        categoryorder="array",
+        categoryarray=SETORES_WIP,
+        tickangle=-35,
+    ),
+    yaxis=dict(
+        title="Peças em WIP",
+        rangemode="tozero",
+    ),
+    yaxis2=dict(
+        title="Aging médio (dias)",
+        overlaying="y",
+        side="right",
+        rangemode="tozero",
+        showgrid=False,
+    ),
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.08,
+        xanchor="left",
+        x=0,
+    ),
+    margin=dict(
+        l=20,
+        r=20,
+        t=70,
+        b=80,
+    ),
+    hovermode="x unified",
+)
+
+st.plotly_chart(
+    fig_wip,
+    use_container_width=True,
+)
+
+
+# ============================================================
+# 21. TABELA WIP POR SETOR
+# ============================================================
+
 st.dataframe(
     wip_setor[
         [
@@ -697,7 +775,97 @@ st.dataframe(
 
 
 # ============================================================
-# 20. WIP POR FASE
+# 22. DISTRIBUIÇÃO DO WIP POR AGING
+# ============================================================
+
+st.subheader(
+    "Distribuição do WIP por Aging"
+)
+
+wip_aging = wip.copy()
+
+wip_aging["FAIXA_AGING"] = pd.cut(
+    wip_aging["AGING_SETOR_DIAS"],
+    bins=[
+        -1,
+        2,
+        5,
+        10,
+        20,
+        float("inf"),
+    ],
+    labels=[
+        "0–2 dias",
+        "3–5 dias",
+        "6–10 dias",
+        "11–20 dias",
+        "> 20 dias",
+    ],
+)
+
+aging_faixa = (
+    wip_aging
+    .groupby(
+        "FAIXA_AGING",
+        observed=True,
+        as_index=False,
+    )
+    .agg(
+        OFS=(
+            "OF",
+            "nunique",
+        ),
+        PECAS=(
+            "Qt Pend.",
+            "sum",
+        ),
+    )
+)
+
+
+fig_aging = go.Figure()
+
+fig_aging.add_trace(
+    go.Bar(
+        x=aging_faixa["FAIXA_AGING"],
+        y=aging_faixa["PECAS"],
+        name="Peças",
+        text=aging_faixa["PECAS"],
+        texttemplate="%{text:,.0f}",
+        textposition="outside",
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "%{y:,.0f} peças"
+            "<extra></extra>"
+        ),
+    )
+)
+
+fig_aging.update_layout(
+    xaxis=dict(
+        title="Aging no setor",
+    ),
+    yaxis=dict(
+        title="Peças em WIP",
+        rangemode="tozero",
+    ),
+    showlegend=False,
+    margin=dict(
+        l=20,
+        r=20,
+        t=30,
+        b=20,
+    ),
+)
+
+st.plotly_chart(
+    fig_aging,
+    use_container_width=True,
+)
+
+
+# ============================================================
+# 23. WIP POR FASE
 # ============================================================
 
 st.subheader("WIP por fase")
@@ -781,89 +949,187 @@ st.dataframe(
 
 
 # ============================================================
-# 21. SITUAÇÃO DOS PRAZOS
+# 24. SITUAÇÃO DOS PRAZOS
 # ============================================================
 
-st.subheader("Situação dos prazos")
+# st.subheader(
+#     "Situação dos prazos"
+# )
 
-atrasadas = wip[
-    wip["STATUS_PRAZO"] == "ATRASADA"
-].copy()
+# atrasadas = wip[
+#     wip["STATUS_PRAZO"] == "ATRASADA"
+# ].copy()
 
-vence_hoje = wip[
-    wip["STATUS_PRAZO"] == "VENCE HOJE"
-].copy()
+# vence_hoje = wip[
+#     wip["STATUS_PRAZO"] == "VENCE HOJE"
+# ].copy()
 
-no_prazo = wip[
-    wip["STATUS_PRAZO"] == "NO PRAZO"
-].copy()
+# no_prazo = wip[
+#     wip["STATUS_PRAZO"] == "NO PRAZO"
+# ].copy()
 
-sem_prazo = wip[
-    wip["STATUS_PRAZO"] == "SEM PRAZO"
-].copy()
-
-
-c1, c2, c3, c4 = st.columns(4)
-
-c1.metric(
-    "OFs atrasadas",
-    format_number(
-        total_ofs(atrasadas)
-    ),
-)
-
-c2.metric(
-    "Vencem hoje",
-    format_number(
-        total_ofs(vence_hoje)
-    ),
-)
-
-c3.metric(
-    "No prazo",
-    format_number(
-        total_ofs(no_prazo)
-    ),
-)
-
-c4.metric(
-    "Sem prazo",
-    format_number(
-        total_ofs(sem_prazo)
-    ),
-)
+# sem_prazo = wip[
+#     wip["STATUS_PRAZO"] == "SEM PRAZO"
+# ].copy()
 
 
-# ============================================================
-# 22. WIP ATRASADO EM PEÇAS
-# ============================================================
+# c1, c2, c3, c4 = st.columns(4)
 
-c1, c2, c3 = st.columns(3)
+# c1.metric(
+#     "OFs atrasadas",
+#     format_number(
+#         total_ofs(atrasadas)
+#     ),
+# )
 
-c1.metric(
-    "Peças atrasadas",
-    format_number(
-        total_pecas(atrasadas)
-    ),
-)
+# c2.metric(
+#     "Vencem hoje",
+#     format_number(
+#         total_ofs(vence_hoje)
+#     ),
+# )
 
-c2.metric(
-    "Peças vencendo hoje",
-    format_number(
-        total_pecas(vence_hoje)
-    ),
-)
+# c3.metric(
+#     "No prazo",
+#     format_number(
+#         total_ofs(no_prazo)
+#     ),
+# )
 
-c3.metric(
-    "Peças no prazo",
-    format_number(
-        total_pecas(no_prazo)
-    ),
-)
+# c4.metric(
+#     "Sem prazo",
+#     format_number(
+#         total_ofs(sem_prazo)
+#     ),
+# )
+
+
+# c1, c2, c3 = st.columns(3)
+
+# c1.metric(
+#     "Peças atrasadas",
+#     format_number(
+#         total_pecas(atrasadas)
+#     ),
+# )
+
+# c2.metric(
+#     "Peças vencendo hoje",
+#     format_number(
+#         total_pecas(vence_hoje)
+#     ),
+# )
+
+# c3.metric(
+#     "Peças no prazo",
+#     format_number(
+#         total_pecas(no_prazo)
+#     ),
+# )
 
 
 # ============================================================
-# 23. OFs COM MAIOR AGING NO SETOR
+# 25. WIP POR SETOR E SITUAÇÃO DO PRAZO
+# ============================================================
+
+# st.subheader(
+#     "WIP por setor e situação do prazo"
+# )
+
+# prazo_setor = (
+#     wip
+#     .groupby(
+#         [
+#             "ORDEM_FLUXO",
+#             "Desc. Setor Atual",
+#             "STATUS_PRAZO",
+#         ],
+#         as_index=False,
+#     )
+#     .agg(
+#         PECAS=(
+#             "Qt Pend.",
+#             "sum",
+#         )
+#     )
+#     .sort_values(
+#         "ORDEM_FLUXO"
+#     )
+# )
+
+
+# ordem_status = [
+#     "NO PRAZO",
+#     "VENCE HOJE",
+#     "ATRASADA",
+#     "SEM PRAZO",
+# ]
+
+# fig_prazo = go.Figure()
+
+# for status in ordem_status:
+
+#     dados_status = prazo_setor[
+#         prazo_setor["STATUS_PRAZO"] == status
+#     ]
+
+#     if dados_status.empty:
+#         continue
+
+#     fig_prazo.add_trace(
+#         go.Bar(
+#             x=dados_status[
+#                 "Desc. Setor Atual"
+#             ],
+#             y=dados_status[
+#                 "PECAS"
+#             ],
+#             name=status.title(),
+#             hovertemplate=(
+#                 "<b>%{x}</b><br>"
+#                 "%{y:,.0f} peças"
+#                 "<extra></extra>"
+#             ),
+#         )
+#     )
+
+
+# fig_prazo.update_layout(
+#     barmode="stack",
+#     xaxis=dict(
+#         title="Setor",
+#         categoryorder="array",
+#         categoryarray=SETORES_WIP,
+#         tickangle=-35,
+#     ),
+#     yaxis=dict(
+#         title="Peças em WIP",
+#         rangemode="tozero",
+#     ),
+#     legend=dict(
+#         orientation="h",
+#         yanchor="bottom",
+#         y=1.08,
+#         xanchor="left",
+#         x=0,
+#     ),
+#     margin=dict(
+#         l=20,
+#         r=20,
+#         t=70,
+#         b=80,
+#     ),
+#     hovermode="x unified",
+# )
+
+# st.plotly_chart(
+#     fig_prazo,
+#     use_container_width=True,
+# )
+
+
+# ============================================================
+# 26. OFs COM MAIOR AGING NO SETOR
 # ============================================================
 
 st.subheader(
@@ -901,6 +1167,7 @@ if "Desc. Coleção" in top_aging.columns:
         "Desc. Coleção",
     )
 
+
 st.dataframe(
     top_aging[
         columns_top
@@ -937,7 +1204,7 @@ st.dataframe(
 
 
 # ============================================================
-# 24. DETALHAMENTO DAS OFs EM WIP
+# 27. DETALHAMENTO DAS OFs EM WIP
 # ============================================================
 
 st.subheader(
@@ -972,6 +1239,7 @@ if "Desc. Coleção" in wip.columns:
         "Desc. Coleção",
     )
 
+
 detail = (
     wip[
         columns_detail
@@ -981,6 +1249,7 @@ detail = (
         ascending=False,
     )
 )
+
 
 st.dataframe(
     detail,
@@ -1034,11 +1303,7 @@ st.dataframe(
 
 
 # ============================================================
-# 25. REGISTROS FORA DO FLUXO
-# ============================================================
-#
-# Importante para identificar setores que existem na base,
-# mas ainda não estão mapeados no fluxo oficial.
+# 28. REGISTROS FORA DO FLUXO
 # ============================================================
 
 fora_fluxo = df[
