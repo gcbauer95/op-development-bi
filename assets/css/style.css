@@ -1,0 +1,291 @@
+:root {
+    --color-background: #fdfcfc;
+    --color-surface: #f8f7f7;
+    --color-surface-card: #f1eeee;
+    --color-surface-dark: #201d1d;
+    --color-surface-dark-elevated: #302c2c;
+
+    --color-ink: #201d1d;
+    --color-ink-deep: #0f0000;
+    --color-charcoal: #302c2c;
+    --color-body: #424245;
+    --color-muted: #646262;
+    --color-stone: #6e6e73;
+    --color-ash: #9a9898;
+    --color-border: rgba(15, 0, 0, 0.12);
+    --color-border-strong: #646262;
+
+    --color-accent: #007aff;
+    --color-danger: #ff3b30;
+    --color-warning: #ff9f0a;
+    --color-success: #30d158;
+
+    --font-family: "Berkeley Mono", "SFMono-Regular", "Roboto Mono", "Cascadia Code", Menlo, monospace;
+    --radius-none: 0;
+    --radius-sm: 4px;
+    --radius-full: 9999px;
+
+    --space-xxs: 1px;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-xxl: 32px;
+    --space-section: 96px;
+}
+
+/* Canvas, typography and the flat depth model. */
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"] {
+    background: var(--color-background);
+    color: var(--color-ink);
+    font-family: var(--font-family);
+}
+
+.stApp * {
+    font-family: var(--font-family);
+}
+
+[data-testid="stIconMaterial"],
+.material-symbols-rounded,
+.material-icons {
+    font-family: "Material Symbols Rounded", "Material Icons" !important;
+}
+
+[data-testid="stHeader"] {
+    background: transparent;
+}
+
+[data-testid="stToolbar"] {
+    color: var(--color-muted);
+}
+
+[data-testid="stMainBlockContainer"] {
+    max-width: 1280px;
+    padding: var(--space-xxl) 40px var(--space-section);
+}
+
+h1, h2, h3 {
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 var(--space-xl);
+}
+
+h2, h3 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-top: var(--space-xxl);
+}
+
+p, label, li, [data-testid="stCaptionContainer"] {
+    color: var(--color-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+[data-testid="stCaptionContainer"] {
+    color: var(--color-muted);
+}
+
+/* Streamlit navigation and filter rail. */
+[data-testid="stSidebar"] {
+    background: var(--color-surface-card);
+    border-right: 1px solid var(--color-border);
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    padding: var(--space-xxl) var(--space-xl);
+}
+
+[data-testid="stSidebarNav"] {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+[data-testid="stSidebarNav"] a {
+    border-radius: var(--radius-none);
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: var(--space-sm) var(--space-md);
+}
+
+[data-testid="stSidebarNav"] a:hover {
+    background: var(--color-surface);
+    color: var(--color-ink);
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: var(--color-ink);
+    color: var(--color-background);
+}
+
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    font-size: 14px;
+    margin: var(--space-xl) 0 var(--space-md);
+}
+
+[data-testid="stSidebar"] h2::before,
+[data-testid="stSidebar"] h3::before {
+    color: var(--color-muted);
+    content: "[+] ";
+}
+
+/* KPI cards use the one elevated surface allowed by the system: a hairline. */
+[data-testid="stMetric"] {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-none);
+    min-height: 108px;
+    padding: var(--space-lg);
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--color-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+[data-testid="stMetricValue"] {
+    color: var(--color-ink);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+[data-testid="stMetricDelta"] {
+    color: var(--color-muted);
+    font-size: 12px;
+}
+
+/* Inputs map to the soft surface and use the 4px interactive radius. */
+[data-baseweb="select"] > div,
+[data-testid="stDateInput"] input,
+[data-testid="stNumberInput"] input,
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stFileUploader"] section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    min-height: 40px;
+}
+
+[data-baseweb="select"] > div:focus-within,
+[data-testid="stDateInput"] input:focus,
+[data-testid="stNumberInput"] input:focus,
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+    background: var(--color-background);
+    border-color: var(--color-ink);
+    box-shadow: none;
+}
+
+[data-testid="stMultiSelect"] [data-baseweb="tag"] {
+    background: var(--color-ink);
+    border-radius: var(--radius-sm);
+    color: var(--color-background);
+}
+
+[data-testid="stFileUploader"] section {
+    border-style: dashed;
+    padding: var(--space-lg);
+}
+
+[data-testid="stFileUploader"] button,
+.stButton > button {
+    background: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-sm);
+    color: var(--color-background);
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 36px;
+    padding: 0 var(--space-xl);
+}
+
+[data-testid="stFileUploader"] button:hover,
+.stButton > button:hover {
+    background: var(--color-ink-deep);
+    border-color: var(--color-ink-deep);
+    color: var(--color-background);
+}
+
+/* Data density: flat tables, hairline separators, compact metadata. */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-none);
+    overflow: hidden;
+}
+
+[data-testid="stDataFrame"] * {
+    font-family: var(--font-family);
+}
+
+[data-testid="stAlert"] {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-body);
+}
+
+div[data-testid="stExpander"] {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-none);
+}
+
+/* Native charts inherit the canvas and remain surrounded by the same rhythm. */
+[data-testid="stArrowVegaLiteChart"],
+[data-testid="stVegaLiteChart"] {
+    background: var(--color-background);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-lg) 0;
+}
+
+/* Smaller screens keep the dense terminal-like hierarchy without overflow. */
+@media (max-width: 768px) {
+    [data-testid="stMainBlockContainer"] {
+        padding: var(--space-xl) var(--space-lg) 48px;
+    }
+
+    h1 {
+        font-size: 28px;
+        line-height: 1.5;
+    }
+
+    h2, h3 {
+        margin-top: var(--space-xl);
+    }
+
+    [data-testid="stMetric"] {
+        min-height: 88px;
+        padding: var(--space-md);
+    }
+
+    [data-testid="stMetricValue"] {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    [data-testid="stSidebar"] > div:first-child {
+        padding: var(--space-lg);
+    }
+
+    [data-testid="stMainBlockContainer"] {
+        padding: var(--space-lg) var(--space-md) 48px;
+    }
+}

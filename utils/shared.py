@@ -14,11 +14,37 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from data.loader import load_data  # noqa: E402
+from utils.styles import apply_theme  # noqa: E402
 
 
 PRODUCTION_COL = "Qt Aprovada"
 DATE_COL = "Data Saída"
 ORDER_TYPE_DESC_COL = "Desc. Tipo OP"
+
+# Sequência operacional usada na página de WIP. Mantê-la centralizada evita
+# que os gráficos e matrizes apresentem os setores em ordem alfabética.
+FLOW_SEQUENCE = [
+    "PCP",
+    "COMPRAS",
+    "LIBERADAS",
+    "ENCAIXE",
+    "CORTE",
+    "CD ANALISE",
+    "ALMOXARIFADO",
+    "CD COSTURA",
+    "COSTURA",
+    "LAVANDERIA",
+    "ANALISE DE ACABAMENTO",
+    "ACABAMENTO",
+    "EXPEDIÇÃO",
+]
+FLOW_ORDER = {sector: position for position, sector in enumerate(FLOW_SEQUENCE, start=1)}
+
+
+def flow_sort_key(value: object) -> tuple[int, str]:
+    """Retorna uma chave estável: fluxo conhecido primeiro, desconhecidos depois."""
+    label = str(value)
+    return FLOW_ORDER.get(label, len(FLOW_SEQUENCE) + 1), label
 
 
 def _normalize_order_dimension(orders: pd.DataFrame) -> pd.DataFrame | None:
