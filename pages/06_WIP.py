@@ -15,7 +15,9 @@ PAGES_DIR = Path(__file__).resolve().parent
 if str(PAGES_DIR) not in sys.path:
     sys.path.insert(0, str(PAGES_DIR))
 
-from _shared import get_orders
+from utils.shared import FLOW_ORDER, FLOW_SEQUENCE, apply_theme, get_orders
+from utils.styles import apply_chart_theme
+from utils.display import display_dataframe, format_br_number
 
 
 # ============================================================
@@ -26,6 +28,7 @@ st.set_page_config(
     page_title="WIP e Aging",
     layout="wide",
 )
+apply_theme()
 
 st.title("WIP e Aging")
 
@@ -39,21 +42,7 @@ st.caption(
 # 1. CONFIGURAÇÃO DO FLUXO
 # ============================================================
 
-FLUXO = [
-    "PCP",
-    "COMPRAS",
-    "LIBERADAS",
-    "ENCAIXE",
-    "CORTE",
-    "CD ANALISE",
-    "ALMOXARIFADO",
-    "CD COSTURA",
-    "COSTURA",
-    "LAVANDERIA",
-    "ANALISE DE ACABAMENTO",
-    "ACABAMENTO",
-    "EXPEDIÇÃO",
-]
+FLUXO = FLOW_SEQUENCE
 
 SETORES_PRE_CORTE = [
     "PCP",
@@ -78,10 +67,7 @@ SETORES_WIP = (
     + SETORES_PRODUCAO
 )
 
-ORDEM_FLUXO = {
-    setor: ordem
-    for ordem, setor in enumerate(FLUXO, start=1)
-}
+ORDEM_FLUXO = FLOW_ORDER
 
 
 # ============================================================
@@ -663,9 +649,10 @@ fig_wip.add_trace(
         x=wip_setor["SETOR"],
         y=wip_setor["PECAS"],
         name="Peças em WIP",
-        text=wip_setor["PECAS"],
-        texttemplate="%{text:,.0f}",
+        text=wip_setor["PECAS"].map(lambda value: format_br_number(value, 0)),
+        texttemplate="%{text}",
         textposition="outside",
+        cliponaxis=False,
         yaxis="y",
         hovertemplate=(
             "<b>%{x}</b><br>"
@@ -724,15 +711,23 @@ fig_wip.update_layout(
     margin=dict(
         l=20,
         r=20,
-        t=70,
-        b=80,
+        t=96,
+        b=96,
     ),
-    hovermode="x unified",
+    height=480,
+    hovermode="closest",
+)
+apply_chart_theme(fig_wip)
+fig_wip.update_layout(
+    margin=dict(l=48, r=48, t=96, b=112),
+    height=480,
+    hoverlabel=dict(align="left", namelength=-1),
+    separators=",.",
 )
 
 st.plotly_chart(
     fig_wip,
-    use_container_width=True,
+    width="stretch",
 )
 
 
@@ -740,37 +735,11 @@ st.plotly_chart(
 # 21. TABELA WIP POR SETOR
 # ============================================================
 
-st.dataframe(
-    wip_setor[
-        [
-            "SETOR",
-            "OFS",
-            "PECAS",
-            "AGING_MEDIO",
-            "AGING_MEDIANO",
-        ]
-    ],
-    use_container_width=True,
+display_dataframe(
+    wip_setor[["SETOR", "OFS", "PECAS", "AGING_MEDIO", "AGING_MEDIANO"]],
+    labels={"SETOR": "Setor", "OFS": "OFs", "PECAS": "Peças", "AGING_MEDIO": "Aging médio (dias)", "AGING_MEDIANO": "Aging mediano (dias)"},
+    number_formats={"OFS": 0, "PECAS": 0, "AGING_MEDIO": 1, "AGING_MEDIANO": 1},
     hide_index=True,
-    column_config={
-        "SETOR": "Setor",
-        "OFS": st.column_config.NumberColumn(
-            "OFs",
-            format="%d",
-        ),
-        "PECAS": st.column_config.NumberColumn(
-            "Peças",
-            format="%d",
-        ),
-        "AGING_MEDIO": st.column_config.NumberColumn(
-            "Aging médio",
-            format="%.1f dias",
-        ),
-        "AGING_MEDIANO": st.column_config.NumberColumn(
-            "Aging mediano",
-            format="%.1f dias",
-        ),
-    },
 )
 
 
@@ -830,9 +799,10 @@ fig_aging.add_trace(
         x=aging_faixa["FAIXA_AGING"],
         y=aging_faixa["PECAS"],
         name="Peças",
-        text=aging_faixa["PECAS"],
-        texttemplate="%{text:,.0f}",
+        text=aging_faixa["PECAS"].map(lambda value: format_br_number(value, 0)),
+        texttemplate="%{text}",
         textposition="outside",
+        cliponaxis=False,
         hovertemplate=(
             "<b>%{x}</b><br>"
             "%{y:,.0f} peças"
@@ -853,14 +823,23 @@ fig_aging.update_layout(
     margin=dict(
         l=20,
         r=20,
-        t=30,
-        b=20,
+        t=64,
+        b=48,
     ),
+    height=360,
+)
+apply_chart_theme(fig_aging)
+fig_aging.update_layout(
+    margin=dict(l=48, r=48, t=64, b=64),
+    height=360,
+    hovermode="closest",
+    hoverlabel=dict(align="left", namelength=-1),
+    separators=",.",
 )
 
 st.plotly_chart(
     fig_aging,
-    use_container_width=True,
+    width="stretch",
 )
 
 
@@ -922,29 +901,11 @@ wip_fase["AGING_MEDIANO"] = (
     .round(1)
 )
 
-st.dataframe(
+display_dataframe(
     wip_fase,
-    use_container_width=True,
+    labels={"FASE": "Fase", "OFS": "OFs", "PECAS": "Peças", "AGING_MEDIO": "Aging médio (dias)", "AGING_MEDIANO": "Aging mediano (dias)"},
+    number_formats={"OFS": 0, "PECAS": 0, "AGING_MEDIO": 1, "AGING_MEDIANO": 1},
     hide_index=True,
-    column_config={
-        "FASE": "Fase",
-        "OFS": st.column_config.NumberColumn(
-            "OFs",
-            format="%d",
-        ),
-        "PECAS": st.column_config.NumberColumn(
-            "Peças",
-            format="%d",
-        ),
-        "AGING_MEDIO": st.column_config.NumberColumn(
-            "Aging médio",
-            format="%.1f dias",
-        ),
-        "AGING_MEDIANO": st.column_config.NumberColumn(
-            "Aging mediano",
-            format="%.1f dias",
-        ),
-    },
 )
 
 
@@ -1124,7 +1085,7 @@ st.dataframe(
 
 # st.plotly_chart(
 #     fig_prazo,
-#     use_container_width=True,
+#     width="stretch",
 # )
 
 
@@ -1168,38 +1129,12 @@ if "Desc. Coleção" in top_aging.columns:
     )
 
 
-st.dataframe(
-    top_aging[
-        columns_top
-    ],
-    use_container_width=True,
+display_dataframe(
+    top_aging[columns_top],
+    labels={"OF": "OF", "Desc. Tipo OP": "Tipo OP", "Desc. Coleção": "Coleção", "Desc. Setor Atual": "Setor atual", "Qt Pend.": "Qt. pendente", "Data Setor": "Data setor", "AGING_SETOR_DIAS": "Aging setor (dias)", "Prev. Término": "Prev. término", "DIAS_PARA_PRAZO": "Dias p/ prazo"},
+    number_formats={"Qt Pend.": 0, "AGING_SETOR_DIAS": 0, "DIAS_PARA_PRAZO": 0},
+    date_formats={"Data Setor": "DD/MM/YYYY", "Prev. Término": "DD/MM/YYYY"},
     hide_index=True,
-    column_config={
-        "OF": "OF",
-        "Desc. Tipo OP": "Tipo OP",
-        "Desc. Coleção": "Coleção",
-        "Desc. Setor Atual": "Setor atual",
-        "Qt Pend.": st.column_config.NumberColumn(
-            "Qt. pendente",
-            format="%d",
-        ),
-        "Data Setor": st.column_config.DateColumn(
-            "Data setor",
-            format="DD/MM/YYYY",
-        ),
-        "AGING_SETOR_DIAS": st.column_config.NumberColumn(
-            "Aging setor",
-            format="%d dias",
-        ),
-        "Prev. Término": st.column_config.DateColumn(
-            "Prev. término",
-            format="DD/MM/YYYY",
-        ),
-        "DIAS_PARA_PRAZO": st.column_config.NumberColumn(
-            "Dias p/ prazo",
-            format="%d",
-        ),
-    },
 )
 
 
@@ -1251,54 +1186,12 @@ detail = (
 )
 
 
-st.dataframe(
+display_dataframe(
     detail,
-    use_container_width=True,
+    labels={"OF": "OF", "Desc. Tipo OP": "Tipo OP", "Desc. Coleção": "Coleção", "FASE": "Fase", "Desc. Setor Atual": "Setor atual", "Qt Orig.": "Qt. original", "Qt Aprovada": "Qt. aprovada", "Qt Pend.": "Qt. pendente", "Emissão": "Emissão", "Data Setor": "Data setor", "AGING_OF_DIAS": "Aging OF (dias)", "AGING_SETOR_DIAS": "Aging setor (dias)", "Prev. Término": "Prev. término", "DIAS_PARA_PRAZO": "Dias p/ prazo", "STATUS_PRAZO": "Status prazo"},
+    number_formats={"Qt Orig.": 0, "Qt Aprovada": 0, "Qt Pend.": 0, "AGING_OF_DIAS": 0, "AGING_SETOR_DIAS": 0, "DIAS_PARA_PRAZO": 0},
+    date_formats={"Emissão": "DD/MM/YYYY", "Data Setor": "DD/MM/YYYY", "Prev. Término": "DD/MM/YYYY"},
     hide_index=True,
-    column_config={
-        "OF": "OF",
-        "Desc. Tipo OP": "Tipo OP",
-        "Desc. Coleção": "Coleção",
-        "FASE": "Fase",
-        "Desc. Setor Atual": "Setor atual",
-        "Qt Orig.": st.column_config.NumberColumn(
-            "Qt. original",
-            format="%d",
-        ),
-        "Qt Aprovada": st.column_config.NumberColumn(
-            "Qt. aprovada",
-            format="%d",
-        ),
-        "Qt Pend.": st.column_config.NumberColumn(
-            "Qt. pendente",
-            format="%d",
-        ),
-        "Emissão": st.column_config.DateColumn(
-            "Emissão",
-            format="DD/MM/YYYY",
-        ),
-        "Data Setor": st.column_config.DateColumn(
-            "Data setor",
-            format="DD/MM/YYYY",
-        ),
-        "AGING_OF_DIAS": st.column_config.NumberColumn(
-            "Aging OF",
-            format="%d dias",
-        ),
-        "AGING_SETOR_DIAS": st.column_config.NumberColumn(
-            "Aging setor",
-            format="%d dias",
-        ),
-        "Prev. Término": st.column_config.DateColumn(
-            "Prev. término",
-            format="DD/MM/YYYY",
-        ),
-        "DIAS_PARA_PRAZO": st.column_config.NumberColumn(
-            "Dias p/ prazo",
-            format="%d",
-        ),
-        "STATUS_PRAZO": "Status prazo",
-    },
 )
 
 
@@ -1342,19 +1235,9 @@ if not fora_fluxo.empty:
             )
         )
 
-        st.dataframe(
+        display_dataframe(
             resumo_fora,
-            use_container_width=True,
+            labels={"Desc. Setor Atual": "Setor", "OFS": "OFs", "PECAS": "Peças"},
+            number_formats={"OFS": 0, "PECAS": 0},
             hide_index=True,
-            column_config={
-                "Desc. Setor Atual": "Setor",
-                "OFS": st.column_config.NumberColumn(
-                    "OFs",
-                    format="%d",
-                ),
-                "PECAS": st.column_config.NumberColumn(
-                    "Peças",
-                    format="%d",
-                ),
-            },
         )

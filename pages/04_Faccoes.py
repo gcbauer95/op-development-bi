@@ -8,15 +8,19 @@ PAGES_DIR = Path(__file__).resolve().parent
 if str(PAGES_DIR) not in sys.path:
     sys.path.insert(0, str(PAGES_DIR))
 
-from _shared import (
+from utils.shared import (
     PRODUCTION_COL,
+    apply_theme,
     get_movements,
     monthly_production,
     no_data_message,
     production_caption,
     sidebar_filters,
 )
+from utils.charts import bar_chart, line_chart
+from utils.display import display_dataframe
 st.set_page_config(page_title="Facções | BI", page_icon="🧵", layout="wide")
+apply_theme()
 st.title("Análise de facções")
 production_caption()
 
@@ -41,19 +45,30 @@ if not no_data_message(df):
     st.subheader("Ranking de facções")
     ranking_chart = ranking.reset_index().head(20)
 
-    st.bar_chart(
+    bar_chart(
         ranking_chart,
         x="Facção",
         y="Peças aprovadas",
     )
-    st.dataframe(ranking, use_container_width=True)
+    display_dataframe(
+        ranking,
+        labels={"CodFacção": "Código da facção", "Facção": "Facção", "Peças aprovadas": "Peças aprovadas", "OFs": "OFs", "Setores": "Setores", "Coleções": "Coleções"},
+        number_formats={"CodFacção": 0, "Peças aprovadas": 0, "OFs": 0, "Setores": 0, "Coleções": 0},
+    )
 
     st.subheader("Facção × setor")
     faction_sector = pd.pivot_table(known, index="Facção", columns="Setor", values=PRODUCTION_COL, aggfunc="sum", fill_value=0)
-    st.dataframe(faction_sector, use_container_width=True)
+    faction_sector = faction_sector.rename_axis("Facção")
+    faction_sector = faction_sector.loc[
+        faction_sector.sum(axis=1).sort_values(ascending=False).index
+    ]
+    display_dataframe(
+        faction_sector,
+        number_formats={column: 0 for column in faction_sector.columns},
+    )
 
     st.subheader("Evolução mensal das principais facções")
     monthly = monthly_production(known, ["Facção"])
     top = monthly.groupby("Facção")[PRODUCTION_COL].sum().nlargest(12).index
     chart = monthly.loc[monthly["Facção"].isin(top)].pivot(index="Mês", columns="Facção", values=PRODUCTION_COL).fillna(0)
-    st.line_chart(chart)
+    line_chart(chart, height=420)

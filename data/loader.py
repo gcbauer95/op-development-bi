@@ -36,6 +36,29 @@ DATASETS = {
             "Desc. Tipo OP",
         ],
     },
+    "pedidos_venda": {
+        "description": "Pedidos vendidos — coleção AV27",
+        "columns": [
+            "codcolecao", "dataemissao", "codcliente", "nomecliente", "codproduto",
+            "quantidade", "codpedido", "dataprevfaturamento", "situacaopedido",
+            "dataultimanf", "numeroultimanf", "bloq_fin", "bloq_com", "pagto",
+        ],
+    },
+    "pedidos_itens": {
+        "description": "Itens dos pedidos — coleção AV27",
+        "columns": [
+            "coditem", "referencia", "nomeproduto", "qtdepedida", "qtdesaldo",
+            "qtdefaturado", "qtdecancelada", "valorunitariobruto", "grade", "cor",
+            "codpedido", "sku", "valor_total_pedido",
+        ],
+    },
+    "estoque_av27": {
+        "description": "Posição de estoque — coleção AV27",
+        "columns": [
+            "colecao", "referencia", "grade", "cor", "estoque_pronta_entrega",
+            "ordem_grade", "sku",
+        ],
+    },
 }
 
 

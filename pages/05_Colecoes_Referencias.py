@@ -8,16 +8,20 @@ PAGES_DIR = Path(__file__).resolve().parent
 if str(PAGES_DIR) not in sys.path:
     sys.path.insert(0, str(PAGES_DIR))
 
-from _shared import (
+from utils.shared import (
     PRODUCTION_COL,
+    apply_theme,
     get_movements,
     monthly_production,
     no_data_message,
     production_caption,
     sidebar_filters,
 )
+from utils.charts import bar_chart, line_chart
+from utils.display import display_dataframe
 
 st.set_page_config(page_title="Coleções e Referências | BI", page_icon="🏷️", layout="wide")
+apply_theme()
 st.title("Coleções e referências")
 production_caption()
 
@@ -36,18 +40,22 @@ if not no_data_message(df):
     c3.metric("Coleções", df["Colecao"].nunique())
 
     st.subheader("Quantidade de referências por mês")
-    st.line_chart(references_by_month)
+    line_chart(references_by_month)
 
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Produção por coleção")
         production_collection = (production_df.groupby("Colecao")[PRODUCTION_COL]
                                  .sum().sort_values(ascending=False))
-        st.bar_chart(production_collection.head(20))
+        bar_chart(production_collection.head(20))
     with col2:
         st.subheader("Coleção × grupo")
         collection_group = pd.pivot_table(production_df, index="Colecao", columns="Grupo", values=PRODUCTION_COL, aggfunc="sum", fill_value=0)
-        st.dataframe(collection_group, use_container_width=True)
+        collection_group = collection_group.rename_axis("Coleção")
+        display_dataframe(
+            collection_group,
+            number_formats={column: 0 for column in collection_group.columns},
+        )
 
     st.subheader("Ranking e Pareto de referências")
     reference_ranking = (production_df.groupby(["Referência", "Descrição"], dropna=False)
@@ -56,5 +64,10 @@ if not no_data_message(df):
                          .reset_index())
     ranking_total = reference_ranking["Peças aprovadas"].sum()
     reference_ranking["% acumulado"] = reference_ranking["Peças aprovadas"].cumsum().div(ranking_total if ranking_total else 1).mul(100)
-    st.dataframe(reference_ranking.head(100), use_container_width=True, hide_index=True,
-                 column_config={"% acumulado": st.column_config.NumberColumn(format="%.1f%%")})
+    display_dataframe(
+        reference_ranking.head(100),
+        labels={"Referência": "Referência", "Descrição": "Descrição", "Peças aprovadas": "Peças aprovadas", "OFs": "OFs", "Coleções": "Coleções", "% acumulado": "% acumulado"},
+        number_formats={"Peças aprovadas": 0, "OFs": 0, "Coleções": 0},
+        percent_formats={"% acumulado": 1},
+        hide_index=True,
+    )

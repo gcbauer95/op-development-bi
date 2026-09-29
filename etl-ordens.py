@@ -6,7 +6,7 @@ from pathlib import Path
 # 1. CONFIGURAÇÕES
 # ============================================================
 
-full_path = Path("raw/ops-geradas.xlsx")
+full_path = Path("raw/ops-geradas-2309.xlsx")
 
 processed_dir = Path("processed")
 parquet_dir = Path("parquet")
