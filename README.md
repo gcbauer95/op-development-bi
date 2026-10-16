@@ -82,7 +82,53 @@ A interface segue uma adaptação do design system do OpenCode.ai para dashboard
 - `utils/charts.py`: renderizadores compartilhados de linhas e barras, com margens, legenda e tema consistentes.
 - `utils/shared.py`: filtros e funções de análise compartilhadas.
 - `etl-pedidos.py`: tratamento dos Excel de pedidos, criação de SKU e geração dos arquivos Parquet.
+- `etl-pedidos-excia.py`: consulta pedidos pendentes diretamente na API Excia e exporta um Excel por coleção.
+- `pages/11_Pedidos_Abertos_API.py`: consulta interativa na API Excia, exibe JSON no Streamlit e permite baixá-lo.
+- `pages/12_Explorador_API_Excia.py`: catálogo de consultas GET da API Excia, com parâmetros editáveis e retorno em tabela.
 - `etl-estoque.py`: tratamento da posição de estoque AV27 e geração dos arquivos Parquet.
+
+## Consulta automática de pedidos em aberto
+
+O script `etl-pedidos-excia.py` consulta a API Excia (`PedidoLista` e `BuscarPedido`) e gera `processed/pedidos-em-aberto-por-colecao.xlsx`, com as abas `Resumo`, `Pedidos` e `Itens`.
+
+Configure as credenciais no arquivo `.env` usando como referência `.env.example`:
+
+```env
+EXCIA_BASE_URL=https://endereco-da-api
+EXCIA_TOKEN=token-fornecido-pela-excia
+EXCIA_EMPRESA=001
+EXCIA_PEDIDOS_DATA_INICIAL=DD/MM/AAAA
+```
+
+A API exige uma data inicial para consultar pedidos. O relatório cobre pedidos pendentes emitidos a partir da data configurada; escolha uma data que inclua os pedidos antigos ainda em aberto. A coleção pode ser filtrada pelo código ou pela descrição:
+
+```bash
+python etl-pedidos-excia.py --colecoes AV27,IV27
+```
+
+Para gerar o relatório de todas as coleções, omita `--colecoes`. Também é possível definir outra data para uma execução específica e outro caminho de saída:
+
+```bash
+python etl-pedidos-excia.py --data-inicial 01/01/2024 --saida processed/pedidos-abertos.xlsx
+```
+
+O código `IV27` é aceito como atalho para `IN27` (`INVERNO 27`), conforme confirmado no cadastro da API. Para consultar os códigos e descrições disponíveis no ERP:
+
+```bash
+python etl-pedidos-excia.py --listar-colecoes
+```
+
+O script usa somente consultas GET e não altera pedidos no ERP. Para executá-lo automaticamente em uma frequência fixa, agende esse comando no agendador do sistema operacional usado para hospedar o projeto.
+
+### Consulta e JSON no Streamlit
+
+Com o dashboard em execução, abra a página **Pedidos Abertos API**. Informe a data inicial e, opcionalmente, os códigos ou descrições das coleções. Ao consultar, o resultado aparece como JSON na página e pode ser baixado pelo botão **Baixar JSON**. A página também apresenta uma tabela e um gráfico com o valor em aberto por dia de emissão e coleção, calculado por item usando o saldo `qtde` retornado pela API vezes o preço original `preco_orig`. A página usa as mesmas credenciais do `.env`.
+
+### Explorador da API Excia
+
+Abra a página **Explorador API Excia**, selecione uma área e uma consulta GET já cadastrada. A rota e os nomes dos parâmetros são definidos pela consulta; informe apenas os valores desejados nos campos exibidos e clique em **Buscar dados**. Respostas JSON aparecem como tabela e podem ser baixadas. Consultas que retornam imagens ou arquivos exibem a prévia compatível e permitem baixar o conteúdo. A paginação opcional busca até 100 páginas de 300 registros. A página disponibiliza somente consultas GET.
+
+Consulte os nomes exatos de rotas, parâmetros e formatos na [documentação da API EXCIA](https://intranet.excia.com.br/api/#consideracoes-iniciais). As datas devem ser informadas como `DD/MM/YYYY`.
 
 ### Tokens principais
 

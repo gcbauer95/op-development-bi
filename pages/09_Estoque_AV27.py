@@ -71,6 +71,181 @@ stock_reference = (
 )
 bar_chart(stock_reference.head(25), x="referencia", y="ESTOQUE", y_title="Peças")
 
+st.subheader("Saldo devedor por referência")
+
+if orders is None or order_items is None:
+    st.info(
+        "Envie também os Parquets de pedidos para calcular "
+        "o saldo devedor por referência."
+    )
+else:
+    orders_work = orders.copy()
+    items_work = order_items.copy()
+
+    orders_work["codpedido"] = pd.to_numeric(
+        orders_work["codpedido"],
+        errors="coerce",
+    ).astype("Int64")
+
+    items_work["codpedido"] = pd.to_numeric(
+        items_work["codpedido"],
+        errors="coerce",
+    ).astype("Int64")
+
+    orders_work["situacaopedido"] = (
+        orders_work["situacaopedido"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    orders_work["bloq_fin"] = (
+        orders_work["bloq_fin"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    items_work["referencia"] = (
+        items_work["referencia"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    items_work["grade"] = (
+        items_work["grade"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    items_work["cor"] = (
+        items_work["cor"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    items_work["qtdepedida"] = pd.to_numeric(
+        items_work["qtdepedida"],
+        errors="coerce",
+    ).fillna(0)
+
+    items_work["qtdefaturado"] = pd.to_numeric(
+        items_work["qtdefaturado"],
+        errors="coerce",
+    ).fillna(0)
+
+    open_statuses = ["EM ANALISE", "PARCIAL"]
+
+    released_order_ids = (
+        orders_work.loc[
+            orders_work["situacaopedido"].isin(open_statuses)
+            & orders_work["bloq_fin"].ne("BLOQUEADO"),
+            "codpedido",
+        ]
+        .dropna()
+        .unique()
+    )
+
+    demand = items_work.loc[
+        items_work["codpedido"].isin(released_order_ids)
+    ].copy()
+
+    if selected_references:
+        demand = demand.loc[
+            demand["referencia"].isin(selected_references)
+        ]
+
+    if selected_grades:
+        demand = demand.loc[
+            demand["grade"].isin(selected_grades)
+        ]
+
+    if selected_colors:
+        demand = demand.loc[
+            demand["cor"].isin(selected_colors)
+        ]
+
+    demand["QTD_PENDENTE"] = (
+        demand["qtdepedida"]
+        - demand["qtdefaturado"]
+    ).clip(lower=0)
+
+    demand_reference = (
+        demand.groupby("referencia", as_index=False)
+        .agg(
+            PEDIDO_PENDENTE=("QTD_PENDENTE", "sum")
+        )
+    )
+
+    debt_reference = stock_reference.merge(
+        demand_reference,
+        on="referencia",
+        how="outer",
+    )
+
+    debt_reference["ESTOQUE"] = pd.to_numeric(
+        debt_reference["ESTOQUE"],
+        errors="coerce",
+    ).fillna(0)
+
+    debt_reference["PEDIDO_PENDENTE"] = pd.to_numeric(
+        debt_reference["PEDIDO_PENDENTE"],
+        errors="coerce",
+    ).fillna(0)
+
+    debt_reference["SALDO_DEVEDOR"] = (
+        debt_reference["PEDIDO_PENDENTE"]
+        - debt_reference["ESTOQUE"]
+    )
+
+    debt_reference = (
+        debt_reference.loc[
+            debt_reference["SALDO_DEVEDOR"] > 0
+        ]
+        .sort_values(
+            "SALDO_DEVEDOR",
+            ascending=False,
+        )
+        .reset_index(drop=True)
+    )
+
+    st.caption(
+        "Considera apenas pedidos em aberto e liberados pelo financeiro. "
+        "Saldo devedor = quantidade pendente do pedido − estoque pronta-entrega."
+    )
+
+    if debt_reference.empty:
+        st.success(
+            "Não existem referências com saldo devedor "
+            "considerando os pedidos liberados pelo financeiro."
+        )
+    else:
+        bar_chart(
+            debt_reference.head(25),
+            x="referencia",
+            y="SALDO_DEVEDOR",
+            y_title="Peças faltantes",
+        )
+
+        display_dataframe(
+            debt_reference,
+            labels={
+                "referencia": "Referência",
+                "PEDIDO_PENDENTE": "Pedido pendente",
+                "ESTOQUE": "Estoque",
+                "SALDO_DEVEDOR": "Saldo devedor",
+            },
+            number_formats={
+                "PEDIDO_PENDENTE": 0,
+                "ESTOQUE": 0,
+                "SALDO_DEVEDOR": 0,
+            },
+            hide_index=True,
+        )
+
 st.subheader("Disponibilidade por referência")
 reference_summary = (
     filtered.groupby("referencia", as_index=False)
