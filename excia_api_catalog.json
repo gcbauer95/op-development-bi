@@ -1,0 +1,4596 @@
+[
+  {
+    "grupo": "Cliente",
+    "nome": "Consultar cliente",
+    "rota": "/BuscarEntidade",
+    "descricao": "Método responsável por retornar os dados de um determinado cliente a partir de um CNPJ.",
+    "parametros": [
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro codcli)",
+        "descricao": "CNPJ ou CPF do cliente a ser consultado, devidamente formatado.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / 5",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro cnpj)",
+        "descricao": "Código da entidade",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Cliente",
+    "nome": "Consultar lista de clientes",
+    "rota": "/EntidadeLista",
+    "descricao": "Método responsável por disponibilizar uma lista de clientes atualizados a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente devidamente formatado, ou a raiz do CNPJ devidamente formatada.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "ativo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status do cadastro do cliente S = Ativo N = Inativo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo_entidade",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo do cadastro do cliente C - Cliente F - Fornecedor T - Terceiro P - Prospect",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "nome",
+        "tipo": "string / 80",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Nome / Razão social",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "nome_cid",
+        "tipo": "string / 50",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Nome da cidade",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cod_est",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Sigla do estado / UF",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "endereco",
+        "tipo": "string / 50",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Endereço / logradouro",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cod_atvd",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do ramo de atividade",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Cliente",
+    "nome": "Consultar Contatos",
+    "rota": "/BuscarContato",
+    "descricao": "Método responsável por buscar contatos através do número do telefone.",
+    "parametros": [
+      {
+        "nome": "telefone",
+        "tipo": "string / 16",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número de telefone para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Pedido",
+    "nome": "Consultar pedido",
+    "rota": "/BuscarPedido",
+    "descricao": "Método responsável por retornar os dados de um determinado pedido, a partir de um numero de pedido ou pedido do cliente.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 12",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro ped_cli)",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "ped_cli",
+        "tipo": "string / 30",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro numero)",
+        "descricao": "Número do pedido do cliente",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Pedido",
+    "nome": "Consultar lista de pedidos",
+    "rota": "/PedidoLista",
+    "descricao": "Método responsável por disponibilizar uma lista de pedidos emitidos a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "dt_emissao_ini",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro alteracao)",
+        "descricao": "Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_emissao_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data final da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "alteracao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro emissao)",
+        "descricao": "Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do cliente",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente do pedido devidamente formatado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "situacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação do pedido. P - Pendente F - Faturado C - Totalmente cancelado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "status_com",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status do pedido no comercial 0 - bloqueado 1 - liberado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "status_fin",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status do pedido no financeiro 0 - bloqueado 1 - liberado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj_rep",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Pedido",
+    "nome": "Consultar expedição",
+    "rota": "/BuscarExpedicao",
+    "descricao": "Método responsável por disponibilizar dados da expedição de pedidos",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 12",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro data)",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro numero)",
+        "descricao": "Data de expedição",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "liberado",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S: Liberado para faturamento N: Bloqueado para faturamento",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "caixa",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da caixa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Pedido",
+    "nome": "Consultar ranking de vendas",
+    "rota": "/Pedido/Relatorio/Ranking",
+    "descricao": "Método responsável por disponibilizar uma listagem de ranking de vendas.",
+    "parametros": [
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "1 - Cliente 2 - Mês 3 - Grupo de produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "emissao_ini",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial de emissão dos pedidos",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "emissao_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data final de emissão dos pedidos",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj_rep",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Pedido",
+    "nome": "Consultar fluxo do pedido",
+    "rota": "/Pedido/Fluxo",
+    "descricao": "Método responsável por disponibilizar as informações do fluxo do pedido",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não ¹",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_prev_ini",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não ¹",
+        "descricao": "Data de previsão inicial",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_prev_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de previsão final",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar Faturas de Pedidos",
+    "rota": "/FaturaPedidoLista",
+    "descricao": "Método responsável por retornar informações sobre faturas de pedidos.",
+    "parametros": [
+      {
+        "nome": "pedido",
+        "tipo": "string / 12",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado fatura ou emissao)",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "fatura",
+        "tipo": "string / 7",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado pedido ou emissao)",
+        "descricao": "Número da fatura / nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado pedido ou fatura)",
+        "descricao": "Data de emissão da nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente devidamente formatado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo_fiscal",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Modelo/Tipo fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "impresso",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status da fatura: N - Não Impressas/Transmitidas S - Impressas/Transmitidas T - Transmitidas em Contingência C - Canceladas D - Denegadas",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar fatura",
+    "rota": "/Fatura/:fatura",
+    "descricao": "Método responsável por retornar informações de uma fatura / nota fiscal.",
+    "parametros": [
+      {
+        "nome": "fatura",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da fatura",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar lista de faturas",
+    "rota": "/Fatura",
+    "descricao": "Método responsável por retornar informações sobre faturas.",
+    "parametros": [
+      {
+        "nome": "fatura",
+        "tipo": "string / 7",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado dt_emissao)",
+        "descricao": "Número da fatura / nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado fatura)",
+        "descricao": "Data de emissão da nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente devidamente formatado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do cliente / destinatário",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tp_base",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "1 - Notas de saída 2 - Notas de entrada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "impresso",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status da fatura: N - Não Impressas/Transmitidas S - Impressas/Transmitidas T - Transmitidas em Contingência C - Canceladas D - Denegadas",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar XML",
+    "rota": "/BuscarXML",
+    "descricao": "Método responsável por retornar os dados de um determinado XML, a partir de uma chave de NF-e ou todos os XML(s) relacionados ao pedido.",
+    "parametros": [
+      {
+        "nome": "pedido",
+        "tipo": "string / 12",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro chave)",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "chave",
+        "tipo": "string / 44",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro pedido)",
+        "descricao": "Número chave da NF-e",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar PDF",
+    "rota": "/Fatura/Download/:chave_nfe",
+    "descricao": "Método responsável por retornar o PDF de uma nota fiscal (DANFE).",
+    "parametros": [
+      {
+        "nome": "chave_nfe",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Chave da nota fiscal",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 3",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Valor fixo: pdf",
+        "valor_fixo": "pdf",
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Nota Fiscal",
+    "nome": "Consultar rastreio",
+    "rota": "/RastreioFatura",
+    "descricao": "Método responsável por disponibilizar uma lista de rastreios de transporte das notas fiscais.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de Emissão. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "nota",
+        "tipo": "string / 8",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da fatura / nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Financeiro",
+    "nome": "Consultar lista do financeiro",
+    "rota": "/FinanceiroLista",
+    "descricao": "Método responsável por disponibilizar uma lista de duplicatas emitidas a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente devidamente formatado, ou a raiz do CNPJ devidamente formatada.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado pagamento, vencimento ou movimento)",
+        "descricao": "Data de Emissão. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagamento",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado emissao, vencimento ou movimento)",
+        "descricao": "Data de Pagamento. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "vencimento",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado emissao, pagamento ou movimento)",
+        "descricao": "Data de Vencimento. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "vencimento_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de Vencimento. Data final da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "movimento",
+        "tipo": "data",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado emissao, pagamento ou vencimento)",
+        "descricao": "Data de Movimentação (Emissão, Pagamento ou Alteração). Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "situacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação dos títulos que estão em aberto ou liquidados Parâmetros de busca: 0 : Em aberto com o saldo maior a 0 1 : Liquidados com saldo igual a 0",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pedido",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do pedido vinculado a duplicata",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string",
+        "obrigatorio": false,
+        "condicao": "Não (Caso não informado, a consulta será executada com os valores \"N\", \"CD\" e \"CH\")",
+        "descricao": "\"N\" - Duplicatas \"A\" - Antecipações \"O\" - Orçamentos \"D\" - Desdobradas \"G\" - Agrupadas \"CH\" - Cheques \"CD\" - Cheques Devolvidos \"DV\" - Devolução",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Financeiro",
+    "nome": "Consultar lista contas a pagar",
+    "rota": "/PagarLista",
+    "descricao": "Método responsável por disponibilizar uma listagem das autorizações de pagamento cadastradas no ERP. São retornados apenas AP's bloqueadas ou em análise.",
+    "parametros": [
+      {
+        "nome": "emissao_ini",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim*",
+        "descricao": "Data de emissão inicial da consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "emissao_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de emissão final da consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagamento",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado parâmetro emissao_ini)",
+        "descricao": "Data de pagamento inicial da consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "bloqueio",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S - Bloqueada N - Liberada A - Em análise Se não informado, retornará as autorizações de pagamento bloqueadas e/ou em análise.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "situacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação 0 - Em aberto com o saldo maior a 0 1 - Liquidados com saldo igual a 0 Se não informado, retornará as autorizações de pagamento em aberto.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "status",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da autorização de pagamento N - Situação A - Antecipação O - Orçamento C - Cancelada D - Desdobrada G - Agrupada DV - Devolução",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Financeiro",
+    "nome": "Emissão de boleto",
+    "rota": "/Boleto",
+    "descricao": "Método responsável pela emissão de boletos.",
+    "parametros": [
+      {
+        "nome": "fatura",
+        "tipo": "string / 9",
+        "obrigatorio": false,
+        "condicao": "Não *",
+        "descricao": "Número da fatura / nota fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "numero",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não *",
+        "descricao": "Número da duplicata + parcela",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pedido",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não *",
+        "descricao": "Número do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "conta",
+        "tipo": "string / 13",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da conta corrente de cobrança",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "carteira",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da carteira de cobrança",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "enviar_email",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S - Envia e-mail do boleto para os endereços pré-cadastrados N - Não envia boleto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso enviar_email = \"S\")",
+        "descricao": "Código ou nome do usuário Obrigatório para o envio do e-mail.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar estoque",
+    "rota": "/ProdutoEstoque",
+    "descricao": "Método para consultar o estoque de um determinado produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do item",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tamanho",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tamanho do item",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "deposito",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do depósito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "colecao",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Coleção do pedido",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar produto",
+    "rota": "/Produto/:codigo",
+    "descricao": "Método responsável por disponibilizar os dados detalhados de um produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string /path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto.",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "tab_pre",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da tabela de preços",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar lista de produtos",
+    "rota": "/Produto",
+    "descricao": "Método responsável por disponibilizar uma lista de produtos atualizados a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data / Hora inicial da consulta. Utilizar o formato DD/MM/YYYY HH:MM:SS",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do produto.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "colecao",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da coleção do produto. Separar por \";\" quando informado mais de um valor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tab_pre",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da tabela de preços",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "ativo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S: Produto ativo N: Produto inativo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar lista de produtos (com cor e tamanho)",
+    "rota": "/ProdutoLista",
+    "descricao": "Método responsável por disponibilizar uma lista de produtos, com cores e tamanhos.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data / Hora inicial da consulta. Utilizar o formato DD/MM/YYYY HH:MM:SS",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do produto. Separar por \";\" quando informado mais de um valor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "colecao",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da coleção do produto. Separar por \";\" quando informado mais de um valor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tab_pre",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da tabela de preços",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "ativo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S: Produto ativo N: Produto inativo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar preço",
+    "rota": "/BuscarPreco",
+    "descricao": "Método responsável por disponibilizar o preço dos produtos.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 5",
+        "obrigatorio": true,
+        "condicao": "Sim*",
+        "descricao": "Código da tabela de preço. Separar por \";\" quando informado mais de um valor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "produto",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim*",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "desc_produto",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim*",
+        "descricao": "Data de alteração Data inicial da consulta Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar imagem",
+    "rota": "/CarregaImagemProduto",
+    "descricao": "Método responsável por disponibilizar as imagens de um determinado produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo_item",
+        "tipo": "string / 1",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Informar P",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "img_padrao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Se informado o valor \"S\", será retornada apenas a imagem padrão do produto. Se informa qualquer outro valor, ou não informar o parâmetro, serão retornadas todas as imagens do produto.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar lista de partes",
+    "rota": "/ParteProdutoLista",
+    "descricao": "Método responsável por listar todas as partes de produtos cadastradas.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar lista de status de produto",
+    "rota": "/StatusLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de status de produto.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar ficha técnica",
+    "rota": "/BuscarFichaTecnicaProduto",
+    "descricao": "Método responsável por retornar os dados da ficha técnica de um produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "parte",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da parte do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "insumo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do insumo da ficha técnica",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar ficha técnica - Metalúrgico",
+    "rota": "/FichaTecnicaProduto/Metal/:codigo",
+    "descricao": "Método responsável por retornar os dados da ficha técnica de um produto do módulo metalúrgico.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar movimentação de estoque",
+    "rota": "/MovimentacaoLista",
+    "descricao": "Método responsável por retornar os dados de movimentação de estoques de produto.",
+    "parametros": [
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Tipo do item. Preencher com \"P\" (Produto)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data da movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "hora",
+        "tipo": "time",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Hora da movimentação (Utilizar o formato HH:MM:SS)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "deposito",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do depósito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "operacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da operação E - Entrada S - Saída",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tp_mov",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo de movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tamanho",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tamanho",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do lote",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "num_docto",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do documento / movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar combinação",
+    "rota": "/BuscarCombinacao",
+    "descricao": "Método responsável por disponibilizar combinações dos produtos.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar estampa",
+    "rota": "/BuscarEstampaProduto",
+    "descricao": "Método responsável por retornar os dados de estampa de um produto.",
+    "parametros": [
+      {
+        "nome": "produto",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "estampa",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da estampa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar preço parte",
+    "rota": "/BuscarPrecoParteProduto",
+    "descricao": "Método responsável por retornar os dados de preços por partes de produtos.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar medida produto",
+    "rota": "/BuscarMedidaProduto",
+    "descricao": "Método responsável por retornar os dados de medidas dos produtos.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "parte",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da parte",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar protótipo",
+    "rota": "/Prototipo/:codigo",
+    "descricao": "Método responsável por consultar os dados de um protótipo.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do protótipo",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar lista de protótipos",
+    "rota": "/Prototipo",
+    "descricao": "Método responsável por disponibilizar uma lista de protótipos.",
+    "parametros": [
+      {
+        "nome": "data_cad",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de cadastro Data inicial da consulta Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do cliente",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "prototipo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do protótipo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "fornecedor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do fornecedor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar documento protótipo",
+    "rota": "/Prototipo/Documento/:prototipo",
+    "descricao": "Método responsável por consultar um documento do cadastro de protótipo.",
+    "parametros": [
+      {
+        "nome": "prototipo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do protótipo",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "arquivo",
+        "tipo": "string",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Nome do documento / arquivo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Produto",
+    "nome": "Consultar terceiro da parte do produto",
+    "rota": "/Produto/:codigo/Fluxo/Terceiro",
+    "descricao": "Método responsável pela consulta dos dados de terceiro / facção para a parte e os setores no fluxo produtivo do produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "parte",
+        "tipo": "string / path param",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da parte do produto",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "setor",
+        "tipo": "string / path param",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do setor",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / path param",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do terceiro",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [
+      "parte",
+      "setor",
+      "codcli"
+    ],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Cor",
+    "nome": "Consultar lista de cores",
+    "rota": "/CorLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de cores.",
+    "parametros": [
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor. Separar por \";\" quando informado mais de um valor",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Etiqueta",
+    "nome": "Consultar lista de etiquetas",
+    "rota": "/EtiquetaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de etiquetas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Coleção",
+    "nome": "Consultar lista de coleções",
+    "rota": "/ColecaoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de coleções.",
+    "parametros": [
+      {
+        "nome": "descricao",
+        "tipo": "string / 50",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da coleção",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Aplicação",
+    "nome": "Consultar lista de aplicações",
+    "rota": "/AplicacaoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de aplicações.",
+    "parametros": [
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Parte",
+    "nome": "Consultar lista de partes",
+    "rota": "/Parte",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de partes.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da parte",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 30",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da parte",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Fluxo",
+    "nome": "Consultar fluxo",
+    "rota": "/Fluxo/:codigo",
+    "descricao": "Método responsável por disponibilizar os dados detalhados de um fluxo produtivo.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do fluxo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Fluxo",
+    "nome": "Consultar lista de fluxos",
+    "rota": "/Fluxo",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de fluxo produtivo.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do fluxo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 30",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do fluxo",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Representante",
+    "nome": "Consultar lista de representantes",
+    "rota": "/RepresentanteLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de representantes.",
+    "parametros": [
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "nome",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Nome do representante",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Representante",
+    "nome": "Consultar lista de lançamentos dos representantes",
+    "rota": "/Representante/Lancamento",
+    "descricao": "Método responsável por disponibilizar uma listagem dos lançamentos de débito e crédito dos representantes.",
+    "parametros": [
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_lan",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data do lançamento",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pago",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação do lançamento S - Pago N - Pendente",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Transportadora",
+    "nome": "Consultar lista de transportadoras",
+    "rota": "/TransportadoraLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de transportadoras.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da transportadora",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 80",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da transportadora",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Condição de pagamento",
+    "nome": "Consultar lista de condições",
+    "rota": "/CondicaoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de condições de pagamento.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Consultar consumos",
+    "rota": "/BuscarConsumos",
+    "descricao": "Método responsável por listar os insumos da ficha técnica de um produto com base em sua ordem de produção.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da OP.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "setor",
+        "tipo": "string / 3",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Setor da OP.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Lote do insumo em estoque.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "insumo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do insumo.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor_i",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Cor do insumo.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Consultar operação",
+    "rota": "/Operacao/:codigo",
+    "descricao": "Método responsável por consultar os dados de uma operação.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código da operação",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Consultar lista de operações",
+    "rota": "/OperacaoLista",
+    "descricao": "Método responsável por listar todas as operações cadastradas no ERP.",
+    "parametros": [
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Consultar lista de OPs",
+    "rota": "/OPLista",
+    "descricao": "Método responsável por listar ordens de produção.",
+    "parametros": [
+      {
+        "nome": "emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de Emissão. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da OP",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo de OP",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "impof",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status da OP 0 - Pendente 1 - Fechada 2 - Cancelada 4 - Parada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "programacao",
+        "tipo": "string / 8",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da programação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Consultar movimentação de OP",
+    "rota": "/BuscarMovimentacaoOP",
+    "descricao": "Método responsável por consultar a movimentação de uma ordem de produção",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da OP",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "parte",
+        "tipo": "string / 2",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Parte do produto",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "setor",
+        "tipo": "string / 3",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Setor da movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codcli",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do terceiro",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de produção",
+    "nome": "Buscar apontamento",
+    "rota": "/BuscarApontamentoOP",
+    "descricao": "Método responsável por buscar os apontamentos de uma ordem de produção.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da ordem de produção",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de tinturaria",
+    "nome": "Consultar lista de ordens de tinturaria",
+    "rota": "/OrdemTinturaria",
+    "descricao": "Método responsável por listar ordens de tinturaria.",
+    "parametros": [
+      {
+        "nome": "dats",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro numero)",
+        "descricao": "Data de saída. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro dats)",
+        "descricao": "Número da ordem de tinturaria",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ da tinturaria",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de malharia",
+    "nome": "Consultar lista de ordens de malharia",
+    "rota": "/OrdemMalharia",
+    "descricao": "Método responsável por listar ordens de malharia.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro dt_altera)",
+        "descricao": "Data de emissão. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_altera",
+        "tipo": "timestamp",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro data)",
+        "descricao": "Data de alteração. Utilizar o formato DD/MM/YYYY HH:MM:SS",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cliente",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do cliente",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "material",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da malha",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de malharia",
+    "nome": "Consultar ordem de malharia",
+    "rota": "/OrdemMalharia/:numero",
+    "descricao": "Método responsável por retornar os dados de uma determinada ordem de malharia a partir do número.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da ordem de malharia",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de tecelagem",
+    "nome": "Consultar lista de ordens de tecelagem",
+    "rota": "/OrdemTecelagem",
+    "descricao": "Método responsável por listar ordens de tecelagem.",
+    "parametros": [
+      {
+        "nome": "dt_emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de emissão. Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "malharia",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da malharia / terceiro",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "reserva",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação da reserva de fios / insumos S - Possui reserva N - Não possui reserva",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "situacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação da ordem P - Pendente B - Baixada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordem de tecelagem",
+    "nome": "Consultar ordem de tecelagem",
+    "rota": "/OrdemTecelagem/:numero",
+    "descricao": "Método responsável por retornar os dados de uma determinada ordem de tecelagem a partir do número.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da ordem de tecelagem",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Funcionário",
+    "nome": "Consultar lista de funcionários",
+    "rota": "/FuncionarioLista",
+    "descricao": "Método responsável por listar todos funcionários ativos.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Funcionário",
+    "nome": "Buscar funcionário",
+    "rota": "/BuscarFuncionario",
+    "descricao": "Método responsável por consultar os dados de um funcionário. Retorna nome e os setores aos quais o funcionário possui acesso.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 8",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do funcionário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Defeito",
+    "nome": "Consultar lista de defeitos",
+    "rota": "/DefeitoLista",
+    "descricao": "Método responsável por listar todos  os defeitos disponíveis.",
+    "parametros": [
+      {
+        "nome": "grupo",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do grupo de defeitos",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Máquina",
+    "nome": "Consultar máquina",
+    "rota": "/Maquina/:codigo",
+    "descricao": "Método responsável por consultar os dados de uma máquina.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código da máquina",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Máquina",
+    "nome": "Consultar lista de máquinas",
+    "rota": "/MaquinaLista",
+    "descricao": "Método responsável por listar todas as máquinas cadastradas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Setor",
+    "nome": "Consultar setor",
+    "rota": "/Setor/:codigo",
+    "descricao": "Método responsável por consultar os dados de um setor.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do setor",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Setor",
+    "nome": "Consultar lista de setores",
+    "rota": "/SetorLista",
+    "descricao": "Método responsável por listar todos os setores cadastrados.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Prazo",
+    "nome": "Consultar lista de prazos",
+    "rota": "/PrazoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de prazos.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordens de compra",
+    "nome": "Consultar lista de ordens de compra",
+    "rota": "/OrdemCompra",
+    "descricao": "Método responsável por disponibilizar uma listagem das ordens de compra cadastradas no ERP.",
+    "parametros": [
+      {
+        "nome": "dt_emissao_ini",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de emissão inicial",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_emissao_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de emissão final",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_entrega_ini",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de entrega inicial",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "dt_entrega_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de entrega final",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cnpj",
+        "tipo": "string / 18",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "CNPJ ou CPF do cliente devidamente formatado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "todas_empresas",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Consultar, ou não, em todas as empresas cadastradas no ERP ( S / N )",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "usuario",
+        "tipo": "string / 20",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso informado parâmetro todas_empresas = S)",
+        "descricao": "Nome do usuário para consulta",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "liberado",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status S - Liberado N - Bloqueado Se não informado retornará apenas as ordens de compra com status \"Em análise\".",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "situacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "A - Aberto B - Baixado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Ordens de compra",
+    "nome": "Consultar uma ordem de compra",
+    "rota": "/OrdemCompra/:numero",
+    "descricao": "Método responsável por disponibilizar os detalhes de uma ordem de compra em específico.",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da ordem de compra",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Notas de Entrada",
+    "nome": "Consultar lista de notas de entrada",
+    "rota": "/NotaEntrada",
+    "descricao": "Método responsável por disponibilizar uma listagem de notas fiscais de entrada.",
+    "parametros": [
+      {
+        "nome": "emissao",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data de emissão",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "entrada",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data de entrada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "credor",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do credor / emissor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "docto",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do documento referenciado à nota",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "notafiscal",
+        "tipo": "string / 9",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da nota",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "serie",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da série da nota",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo_natureza",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da natureza de operação V - Venda/Compra D - Devolução R - Retorno/Remessa C - Consignação A - Antecipação S - Serviço B - Bonificação/Brindes I - Imposto Complementar J - Ajuste E - Crédito T - Débito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Notas de Entrada",
+    "nome": "Consultar uma nota de entrada",
+    "rota": "/NotaEntrada/:credor/:numero/:serie",
+    "descricao": "Método responsável por disponibilizar os detalhes de uma nota fiscal de entrada.",
+    "parametros": [
+      {
+        "nome": "credor",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do credor / emissor da nota",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "numero",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da nota",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "serie",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da série da nota",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa para consulta (ex.: 001 ou _002)",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Grupo",
+    "nome": "Consultar grupo",
+    "rota": "/Grupo/:codigo",
+    "descricao": "Método responsável por consultar os dados de um grupo.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do grupo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Grupo",
+    "nome": "Consultar lista de grupos",
+    "rota": "/GrupoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de grupos de produtos.",
+    "parametros": [
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo de grupo. P - Produto M - Material",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Subgrupo",
+    "nome": "Consultar subgrupo",
+    "rota": "/SubGrupo/:codigo",
+    "descricao": "Método responsável por consultar os dados de um subgrupo de materiais.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do subgrupo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Subgrupo",
+    "nome": "Consultar lista de subgrupos",
+    "rota": "/SubGrupoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de subgrupos de materiais.",
+    "parametros": [
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Marca",
+    "nome": "Consultar lista de marcas",
+    "rota": "/MarcaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de marcas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Linha",
+    "nome": "Consultar lista de linhas",
+    "rota": "/LinhaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de linhas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Família",
+    "nome": "Consultar lista de famílias",
+    "rota": "/FamiliaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de linhas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Tamanho",
+    "nome": "Consultar faixa de tamanho",
+    "rota": "/FaixaTamanho/:codigo",
+    "descricao": "Método responsável por disponibilizar os dados de uma faixa de tamanho.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código da faixa de tamanho",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Tamanho",
+    "nome": "Consultar lista de faixas de tamanho",
+    "rota": "/FaixaTamanhoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de faixas de tamanho.",
+    "parametros": [
+      {
+        "nome": "descricao",
+        "tipo": "string / 30",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da faixa de tamanhos",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Tamanho",
+    "nome": "Consultar lista de tamanhos",
+    "rota": "/Tamanho",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de tamanhos.",
+    "parametros": [
+      {
+        "nome": "tam",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tamanho",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "acrescimo",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Ordem do tamanho",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "faixa",
+        "tipo": "string / 10",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Faixa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "faixa_preco",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da faixa de preço",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar material",
+    "rota": "/Material/:codigo",
+    "descricao": "Método responsável por disponibilizar os dados detalhados de um material.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string /path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto.",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "tab_pre",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da tabela de preços",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar lista de materiais",
+    "rota": "/MaterialLista",
+    "descricao": "Método responsável por retornar uma lista de materiais atualizados a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do material a ser consultado",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "ativo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S = Materiais ativos N = Materiais inativos",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "Number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar lista de documentos material",
+    "rota": "/Material/:codigo/Documento",
+    "descricao": "Método responsável por listar os documentos vinculados a um material.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar documento material",
+    "rota": "/Material/:codigo/Documento/:arquivo",
+    "descricao": "Método responsável por buscar / realizar download de um documento vinculado a um material.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "arquivo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Nome do arquivo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar composição produção material",
+    "rota": "/Material/:codigo/Composicao/Producao",
+    "descricao": "Método responsável por buscar a composição produção de um material",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar estoque",
+    "rota": "/Estoque",
+    "descricao": "Método responsável por consultar o estoque de materiais.",
+    "parametros": [
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Informar M",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo2",
+        "tipo": "string / 25",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código 2 / referência",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "deposito",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do depósito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do lote",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "barra",
+        "tipo": "string / 13",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código de barras",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "estoque",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "0 - Todos 1 - Com quantidade em estoque 2 - Sem quantidade em estoque",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "local",
+        "tipo": "string / 30",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do local",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor_ativa",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "S - Apenas cores ativas N - Apenas cores inativas",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "offset",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Quantidade de registros por página. Caso não informado, serão retornados 300 registros",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar movimentação de estoque",
+    "rota": "/Estoque/Movimento",
+    "descricao": "Método responsável por retornar os dados de movimentação de estoques de material.",
+    "parametros": [
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Tipo do item. Preencher com \"M\" (Material)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data da movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "hora",
+        "tipo": "time",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Hora da movimentação (Utilizar o formato HH:MM:SS)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "deposito",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do depósito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "operacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da operação E - Entrada S - Saída",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tp_mov",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo de movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do lote",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "num_docto",
+        "tipo": "string / 12",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do documento / movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar lotes de materiais",
+    "rota": "/Estoque/Lote",
+    "descricao": "Método responsável por retornar os dados de lotes de materiais.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número do lote",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Material",
+    "nome": "Consultar reserva de materiais",
+    "rota": "/Material/Reserva",
+    "descricao": "Método responsável por retornar os dados de reservas de materiais",
+    "parametros": [
+      {
+        "nome": "numero",
+        "tipo": "string / 6",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro código)",
+        "descricao": "Número do documento atrelado a reserva",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 2",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Tipo da reserva",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo",
+        "tipo": "string / 15",
+        "obrigatorio": true,
+        "condicao": "Sim (Caso não informado o parâmetro numero)",
+        "descricao": "Código do material",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cor",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da cor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "lote",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do lote",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "deposito",
+        "tipo": "string / 6",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do depósito",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Estampa",
+    "nome": "Consultar lista de estampas",
+    "rota": "/EstampaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de estampas.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial da consulta. Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Situação Amostra",
+    "nome": "Consultar lista de situações de amostras",
+    "rota": "/SituacaoAmostra",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de situações de amostra.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da situação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 80",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da situação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Depósito",
+    "nome": "Consultar lista de depósitos",
+    "rota": "/DepositoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem dos depósitos cadastrados",
+    "parametros": [
+      {
+        "nome": "pagina",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Medida",
+    "nome": "Consultar lista de medidas",
+    "rota": "/MedidaLista",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de medidas.",
+    "parametros": [],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Varejo",
+    "nome": "Consultar venda varejo",
+    "rota": "/BuscarVendaVarejo",
+    "descricao": "Método responsável por retornar os dados de uma determinada venda varejo",
+    "parametros": [
+      {
+        "nome": "venda",
+        "tipo": "number",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Número da venda",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Varejo",
+    "nome": "Consultar lista de vendas varejo",
+    "rota": "/VendaVarejoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem das vendas varejo.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial da consulta Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "data_fim",
+        "tipo": "date",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Data final da consulta Utilizar o formato DD/MM/YYYY",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo_venda",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da venda 0 - Venda 1 - Devolução 2 - Troca",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "status",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status da venda 0 - Aberta 1 - Finalizada 2 - Cancelada 3 - Conferida",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codrep",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante / vendedor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codrep2",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do representante 2 / guia",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "number",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Região",
+    "nome": "Consultar lista de regiões",
+    "rota": "/RegiaoLista",
+    "descricao": "Método responsável por disponibilizar uma listagem das regiões / tabelas de preço.",
+    "parametros": [
+      {
+        "nome": "regiao",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da região.",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "liberado",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Status da região S - Liberada N - Bloqueada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 50",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da região",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página. Cada página contem 300 registros.",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Tipo de Entidade",
+    "nome": "Consultar lista de tipos de entidade",
+    "rota": "/TipoEntidade",
+    "descricao": "Método responsável por disponibilizar uma listagem dos tipos de entidades",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do tipo de entidade",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 20",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do tipo de entidade",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "pagina",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da página",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "offset",
+        "tipo": "integer",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Quantidade de registros por página. Caso não informado, serão retornados 300 registros",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Grupo de clientes",
+    "nome": "Consultar grupo de clientes",
+    "rota": "/GrupoCliente/:codigo",
+    "descricao": "Método responsável por retornar os dados de um determinado grupo de clientes.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do grupo de clientes",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Grupo de clientes",
+    "nome": "Consultar lista de grupos de clientes",
+    "rota": "/GrupoCliente",
+    "descricao": "Método responsável por disponibilizar uma listagem dos grupos de clientes",
+    "parametros": [
+      {
+        "nome": "descricao",
+        "tipo": "string / 20",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do tipo de entidade",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Mensagem",
+    "nome": "Consultar lista de mensagens",
+    "rota": "/Mensagem",
+    "descricao": "Método responsável por disponibilizar uma listagem de mensagens / motivos.",
+    "parametros": [
+      {
+        "nome": "codmen",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da mensagem",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da mensagem",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "padrao",
+        "tipo": "string / 2",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo de mensagem",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Imagem",
+    "nome": "Consultar imagem de produto",
+    "rota": "/Imagem/Produto/:codigo",
+    "descricao": "Método responsável por disponibilizar a imagem de um produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto / nome do arquivo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Imagem",
+    "nome": "Consultar imagem cadastrada como documento",
+    "rota": "/Imagem/Documento/Produto/:codigo/:nome_arquivo",
+    "descricao": "Método responsável por disponibilizar a imagem de um produto.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do produto",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "nome_arquivo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Nome da imagem",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Imagem",
+    "nome": "Consultar imagem de protótipo",
+    "rota": "/Imagem/Prototipo/:nome_arquivo",
+    "descricao": "Método responsável por disponibilizar a imagem de um protótipo.",
+    "parametros": [
+      {
+        "nome": "nome_arquivo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do protótipo / nome do arquivo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Imagem",
+    "nome": "Consultar imagem de protótipo em base64",
+    "rota": "/Prototipo/Imagem/:nome_arquivo",
+    "descricao": "Método responsável por disponibilizar a imagem de um protótipo.",
+    "parametros": [
+      {
+        "nome": "nome_arquivo",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código do protótipo / nome do arquivo",
+        "valor_fixo": null,
+        "local": "caminho"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Classificação Fiscal",
+    "nome": "Consultar lista classificações fiscais",
+    "rota": "/ClassificacaoFiscal",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de classificação fiscal.",
+    "parametros": [
+      {
+        "nome": "codigo",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da classificação fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código NCM",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 100",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição da classificação fiscal",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Conversão de códigos de compra",
+    "nome": "Consultar lista de conversão de código",
+    "rota": "/ConversaoCodigo",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de conversão de códigos.",
+    "parametros": [
+      {
+        "nome": "codfor",
+        "tipo": "string / 5",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código de cadastro do fornecedor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo_for",
+        "tipo": "string / 60",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código do item do fornecedor",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "codigo_mat",
+        "tipo": "string / 15",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código interno no EXCIA ERP",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Natureza de Operação",
+    "nome": "Consultar natureza de operação",
+    "rota": "/Natureza/:natureza",
+    "descricao": "Método responsável por retornar os dados de uma determinada natureza de operação.",
+    "parametros": [
+      {
+        "nome": "natureza",
+        "tipo": "string / path param",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Código da natureza de operação",
+        "valor_fixo": null,
+        "local": "caminho"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 3",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Natureza de Operação",
+    "nome": "Consultar lista de naturezas de operação",
+    "rota": "/Natureza",
+    "descricao": "Método responsável por disponibilizar uma listagem do cadastro de naturezas de operação",
+    "parametros": [
+      {
+        "nome": "ativo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Situação do cadastro S: Ativo N: Inativo",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 80",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tipo",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Tipo da natureza de operação V: Venda/Compra D: Devolução R: Retorno/Remessa C: Consignação A: Antecipação S: Serviço B: Bonificação/Brindes I: Imposto Complementar J: Ajuste",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tp_base",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Operação 1: Saída 2: Entrada",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "cfop",
+        "tipo": "string / 8",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Código da CFOP",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "empresa",
+        "tipo": "string / 4",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número da empresa",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  },
+  {
+    "grupo": "Logs",
+    "nome": "Consultar lista de logs",
+    "rota": "/LogLista",
+    "descricao": "Método responsável por disponibilizar uma listagem dos logs, gravados a partir de uma determinada data.",
+    "parametros": [
+      {
+        "nome": "data",
+        "tipo": "date",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Data inicial da consulta (DD/MM/YYYY)",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "tela",
+        "tipo": "string / 50",
+        "obrigatorio": true,
+        "condicao": "Sim",
+        "descricao": "Tela associada ao log",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "chave",
+        "tipo": "string / 25",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Número chave associado à determinada operação",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "descricao",
+        "tipo": "string / 150",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "Descrição do log",
+        "valor_fixo": null,
+        "local": "consulta"
+      },
+      {
+        "nome": "operacao",
+        "tipo": "string / 1",
+        "obrigatorio": false,
+        "condicao": "Não",
+        "descricao": "I: Inclusão A: Alteração E: Exclusão M: Movimentação",
+        "valor_fixo": null,
+        "local": "consulta"
+      }
+    ],
+    "sufixos_caminho_opcionais": [],
+    "origem": "documentacao",
+    "metodo": "GET"
+  }
+]

@@ -6,9 +6,9 @@ import pandas as pd
 
 
 COLLECTION = "AV27"
-RAW_FILE = Path("raw/posicao-estoque-av27.xlsx")
-PROCESSED_FILE = Path("processed/posicao-estoque-av27_processed.xlsx")
-PARQUET_FILE = Path("parquet/posicao-estoque-av27.parquet")
+RAW_FILE = Path("raw/estoque-pa/posicao-estoque-AV27-1310.xlsx")
+PROCESSED_FILE = Path("processed/estoque-pa/posicao-estoque-AV27-1310_processed.xlsx")
+PARQUET_FILE = Path("parquet/estoque-pa/posicao-estoque-AV27-1310.parquet")
 
 
 def clean_text(series: pd.Series, *, upper: bool = False) -> pd.Series:
